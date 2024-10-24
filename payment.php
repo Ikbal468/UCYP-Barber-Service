@@ -1,0 +1,55 @@
+<?php
+session_start();
+include 'connect.php';
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Payment</title>
+    <link rel="stylesheet" href="css/paymentstyle.css">
+</head>
+<body>
+    <div class="payment-container">
+        <h1>Secure Online Payment</h1>
+        <form action="connect.php" method="post" id="payment-form" enctype="multipart/form-data">
+            <div class="input-group">
+                <label for="payment-method">Payment Method</label>
+                <select id="payment-method" name="payment-method" required>
+                    <option value="qr">QR Code</option>
+                    <option value="tng">Touch n Go</option>
+                </select>
+            </div>
+            <div id="qr-code-container" style="display: none;">
+                <img src="images/qrcodeIqbal.jpg" alt="QR Code" id="qr-code">
+            </div>
+            <div id="tng-container" style="display: none;">
+                <img src="images/tngIqbal.jpg" alt="Touch n Go" id="tng-image">
+            </div>
+            <div id="receipt-container" class="input-group">
+                <label for="receipt">Upload Receipt (PDF)</label>
+                <input type="file" id="receipt" name="receipt" accept=".pdf" required>
+            </div>
+            <button type="submit" class="btn-submit">Pay Now</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('payment-method').addEventListener('change', function() {
+            var qrCodeContainer = document.getElementById('qr-code-container');
+            var tngContainer = document.getElementById('tng-container');
+
+            if (this.value === 'qr') {
+                qrCodeContainer.style.display = 'block';
+                tngContainer.style.display = 'none';
+            } else if (this.value === 'tng') {
+                qrCodeContainer.style.display = 'none';
+                tngContainer.style.display = 'block';
+            }
+        });
+
+        // Trigger the event manually to set the initial state
+        document.getElementById('payment-method').dispatchEvent(new Event('change'));
+    </script>
+</body>
+</html>
